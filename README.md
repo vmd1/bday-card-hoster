@@ -23,4 +23,8 @@ becomes
 ```
 if you have 12 pages  
 
-If using docker, run `docker compose up -d` to quickly spin up a webserver on port 80.
+If using docker, run `docker compose up -d` to quickly spin up a webserver on port 80.  
+  
+## Video  
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Xi088-wsaJk?si=J9K1HUgveaPbAoZm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
