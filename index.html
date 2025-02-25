@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Have an amazing day!</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      perspective: 1500px;
+      display: flex;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .page {
+      position: fixed;
+      width: 100%;
+      height: 100vh;
+      transition: transform 1s;
+      transform-origin: left;
+      transform-style: preserve-3d;
+      background-size: cover;
+      background-position: center;
+      top: 0;
+      left: 0;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-size: contain, 100%; 
+      background-repeat: no-repeat;  
+      background-position: center;
+    }
+
+    .nav-button {
+      position: fixed;
+      bottom: 20px;
+      padding: 10px 20px;
+      border: none;
+      background: rgba(0,0,0,0.1);
+      cursor: pointer;
+      border-radius: 5px;
+      z-index: 1000;
+      color: black;
+    }
+
+    .prev { left: 20px; }
+    .next { right: 20px; }
+
+    .open-card {
+      transition: 1s;
+      transform-origin: 0;
+      transform: rotateY(-90deg);
+    }
+
+    .arrow-button {
+      position: absolute;
+      top: 50%;
+      font-size: 30px;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 1000;
+      transform: translateY(-50%);
+    }
+
+    .arrow-button.left { left: 10px; }
+    .arrow-button.right { justify-content: flex-end; right: 10px; }
+
+    .loading-screen {
+      position: fixed;
+      width: 100%;
+      height: 100vh;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loading-screen img {
+      width: 150px;
+      height: auto;
+    }
+
+    .loading-bar {
+      width: 50%;
+      height: 10px;
+      background-color: #ccc;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .loading-progress {
+      height: 100%;
+      width: 0;
+      background-color: #007bff;
+      transition: width 10s linear;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-screen" id="loadingScreen">
+    <img src="loading.png" alt="Loading...">
+    <div class="loading-bar">
+      <div class="loading-progress" id="loadingProgress"></div>
+    </div>
+  </div> 
+  <audio id="bgMusic" loop>
+    <source src="card/audio/music.mp3" type="audio/mp3">
+  </audio>
+  <div id="pagesContainer"></div>
+  <button class="arrow-button left" onclick="goBack()">&#9665;</button>
+  <button class="arrow-button right" onclick="goForward()">&#9655;</button>
+  <script>
+    let currentPage = 1;
+    const totalPages = 5; // Set total number of pages
+    const pagesContainer = document.getElementById('pagesContainer');
+    
+    for (let i = totalPages; i >= 1; i--) {
+      const page = document.createElement('div');
+      page.classList.add('page');
+      page.id = `page${i}`;
+      page.style.backgroundImage = `url('card/pages/${i}.png')`;
+      page.style.zIndex = totalPages - i;
+      pagesContainer.appendChild(page);
+    }
+    
+    function updateArrows() {
+      document.querySelector('.arrow-button.left').style.display = currentPage === 1 ? 'none' : 'block';
+      document.querySelector('.arrow-button.right').style.display = currentPage === totalPages ? 'none' : 'block';
+    }
+    
+    function goBack() {
+      if (currentPage > 1) {
+        currentPage--;
+        document.getElementById(`page${currentPage}`).classList.remove('open-card');
+        updateArrows();
+      }
+    }
+    
+    function goForward() {
+      if (currentPage < totalPages) {
+        document.getElementById(`page${currentPage}`).classList.add('open-card');
+        currentPage++;
+        updateArrows();
+      }
+    }
+    
+    document.body.addEventListener('click', function(event) {
+      if (!event.target.classList.contains('arrow-button')) {
+        goForward();
+      }
+    });
+    
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "ArrowLeft") goBack();
+      else if (event.key === "ArrowRight") goForward();
+    });
+    
+    window.onload = function () {
+      let progress = document.getElementById("loadingProgress");
+      progress.style.width = "100%";
+
+      setTimeout(() => {
+        document.getElementById("loadingScreen").classList.add("hidden");
+      }, 10000);
+    };
+
+    updateArrows();
+  </script>
+</body>
+</html>
