@@ -1,5 +1,5 @@
 # Card Hoster
-A simple card hoster built in html, with an unlimited number of pages, and support for backgrounf music
+A simple card hoster built in html, with an unlimited number of pages, and support for background music
 
 ## What is this?
 - This is a card hoster
